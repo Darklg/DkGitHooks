@@ -1,0 +1,9 @@
+#!/bin/sh
+
+###################################
+## PRE COMMIT HOOK
+###################################
+
+## Prevent debug functions
+##dkgithookspath##prevent-debug-functions.sh
+
