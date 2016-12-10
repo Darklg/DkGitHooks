@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-# DK Install Hooks v 0.1
+# DK Install Hooks v 0.2
 #
 # @author      Darklg <darklg.blog@gmail.com>
-# @copyright   Copyright (c) 2016 Darklg
+# @copyright   Copyright (c) @Darklg
 # @license     MIT
 
 ###################################

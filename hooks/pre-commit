@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###################################
 ## PRE COMMIT HOOK
@@ -6,4 +6,7 @@
 
 ## Prevent debug functions
 ##dkgithookspath##prevent-debug-functions.sh
+
+## Prevent core edit
+##dkgithookspath##prevent-core-edit.sh
 

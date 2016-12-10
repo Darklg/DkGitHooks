@@ -1,31 +1,30 @@
 #!/bin/bash
 
-# Prevent debug functions v 0.2
+# Detect core edit v 0.1
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
 # @license     MIT
 
-## Error list
+## Invalid path list
 ###################################
 
-# JavaScript
-DKGH_LIST_ERRORS[0]="console.log";
-DKGH_LABEL_ERRORS[0]='JS';
+DKGH_LIST_ERRORS="";
 
-# PHP
-DKGH_LIST_ERRORS[1]='var_dump var_export print_r Zend_Debug die(';
-DKGH_LABEL_ERRORS[1]='PHP';
+# WordPress
+DKGH_LIST_ERRORS="${DKGH_LIST_ERRORS} wp-admin/ wp-includes/";
+
+# Magento
+DKGH_LIST_ERRORS="${DKGH_LIST_ERRORS} app/code/core/ app/design/frontend/base/";
 
 ## Test model
 ###################################
 
-function dkgithooks_testaddedstringingitdiff(){
-    test_error=${1};
-    test_group=${2};
+function dkgithooks_teststringingitdiffpath(){
+    test_folder=${1};
 
     # Search for the string to avoid only in GIT DIFF, only on new lines.
-    _count_results=$(git diff --cached | grep ^+ | grep "${test_error}" | wc -l | awk '{print $1}');
+    _count_results=$(git diff --name-only | grep "${test_folder}" | wc -l | awk '{print $1}');
     # Add plural to the result word if needed.
     _results_str='result';
     if [[ "${_count_results}" -ge 2 ]]; then
@@ -33,7 +32,7 @@ function dkgithooks_testaddedstringingitdiff(){
     fi;
     # Print any error
     if [[ "${_count_results}" -ge 1 ]]; then
-        printf '\n - [%s] Remove any new "%s" statement : %d %s.' "${test_group}" "${test_error}" "${_count_results}" "${_results_str}";
+        printf '\n - Discard any modification on core file in "%s" folder : %d %s.' "${test_folder}" "${_count_results}" "${_results_str}";
     fi;
 }
 
@@ -43,13 +42,10 @@ function dkgithooks_testaddedstringingitdiff(){
 DKGH_ERROR_RETURN='';
 DKGH_ERROR_RETURN_TEST='';
 
-for i in 0 1
+for test_folder in ${DKGH_LIST_ERRORS}
 do
-    for test_error in ${DKGH_LIST_ERRORS[${i}]}
-    do
-        DKGH_ERROR_RETURN_TEST=$(dkgithooks_testaddedstringingitdiff "${test_error}" "${DKGH_LABEL_ERRORS[${i}]}");
-        DKGH_ERROR_RETURN="${DKGH_ERROR_RETURN}${DKGH_ERROR_RETURN_TEST}";
-    done;
+    DKGH_ERROR_RETURN_TEST=$(dkgithooks_teststringingitdiffpath "${test_folder}");
+    DKGH_ERROR_RETURN="${DKGH_ERROR_RETURN}${DKGH_ERROR_RETURN_TEST}";
 done;
 
 ## Display errors if needed
@@ -64,6 +60,5 @@ fi;
 ###################################
 
 unset DKGH_LIST_ERRORS;
-unset DKGH_LABEL_ERRORS;
 unset DKGH_ERROR_RETURN_TEST;
 unset DKGH_ERROR_RETURN;
