@@ -10,3 +10,6 @@
 ## Prevent core edit
 ##dkgithookspath##prevent-core-edit.sh
 
+## Prevent invalid PHP
+##dkgithookspath##prevent-invalid-php.sh
+
