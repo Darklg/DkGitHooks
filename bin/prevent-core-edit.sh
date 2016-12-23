@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Detect core edit v 0.1.1
+# Detect core edit v 0.1.2
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
@@ -24,7 +24,7 @@ function dkgithooks_teststringingitdiffpath(){
     test_folder=${1};
 
     # Search for the string to avoid in changed/new/deleted files
-    _count_results=$(git status --short | grep "${test_folder}" | wc -l | awk '{print $1}');
+    _count_results=$(git diff --name-only --cached | grep "${test_folder}" | wc -l | awk '{print $1}');
     # Add plural to the result word if needed.
     _results_str='result';
     if [[ "${_count_results}" -ge 2 ]]; then
