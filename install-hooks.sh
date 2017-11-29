@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# DK Install Hooks v 0.3.2
+# DK Install Hooks v 0.4.0
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg

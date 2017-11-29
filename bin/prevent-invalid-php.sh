@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Prevent invalid PHP v 0.1
+# Prevent invalid PHP v 0.1.1
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
 # @license     MIT
+
+## Load functions
+###################################
+
+DKGH_SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
+. "${DKGH_SOURCEDIR}/functions.sh";
 
 ## Files list
 ###################################
@@ -36,17 +42,14 @@ for php_file in $php_files; do
     DKGH_ERROR_RETURN="${DKGH_ERROR_RETURN}${DKGH_ERROR_RETURN_TEST}";
 done
 
-
-## Display errors if needed
+## Display errors
 ###################################
 
-if [ "$DKGH_ERROR_RETURN" != '' ]; then
-    printf "Error(s) : Fix this before commit.%s\n\nIf there is a false result, please use :\ngit commit --no-verify." "${DKGH_ERROR_RETURN}";
-    #exit 1;
-fi;
+dkgithooks_displayerrors;
 
 ## Clean up
 ###################################
 
 unset DKGH_ERROR_RETURN_TEST;
 unset DKGH_ERROR_RETURN;
+unset DKGH_SOURCEDIR;

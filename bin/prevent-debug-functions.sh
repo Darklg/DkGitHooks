@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Prevent debug functions v 0.2
+# Prevent new debug functions v 0.2.1
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
 # @license     MIT
+
+## Load functions
+###################################
+
+DKGH_SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
+. "${DKGH_SOURCEDIR}/functions.sh";
 
 ## Error list
 ###################################
@@ -14,28 +20,8 @@ DKGH_LIST_ERRORS[0]="console.log";
 DKGH_LABEL_ERRORS[0]='JS';
 
 # PHP
-DKGH_LIST_ERRORS[1]='var_dump var_export print_r Zend_Debug die(';
+DKGH_LIST_ERRORS[1]='var_dump var_export print_r Zend_Debug die( exit( die;';
 DKGH_LABEL_ERRORS[1]='PHP';
-
-## Test model
-###################################
-
-function dkgithooks_testaddedstringingitdiff(){
-    test_error=${1};
-    test_group=${2};
-
-    # Search for the string to avoid only in GIT DIFF, only on new lines.
-    _count_results=$(git diff --cached | grep ^+ | grep "${test_error}" | wc -l | awk '{print $1}');
-    # Add plural to the result word if needed.
-    _results_str='result';
-    if [[ "${_count_results}" -ge 2 ]]; then
-        _results_str='results';
-    fi;
-    # Print any error
-    if [[ "${_count_results}" -ge 1 ]]; then
-        printf '\n - [%s] Remove any new "%s" statement : %d %s.' "${test_group}" "${test_error}" "${_count_results}" "${_results_str}";
-    fi;
-}
 
 ## Test all files
 ###################################
@@ -52,13 +38,10 @@ do
     done;
 done;
 
-## Display errors if needed
+## Display errors
 ###################################
 
-if [ "$DKGH_ERROR_RETURN" != '' ]; then
-    printf "Error(s) : Fix this before commit.%s\n\nIf there is a false result, please use :\ngit commit --no-verify." "${DKGH_ERROR_RETURN}";
-    exit 1;
-fi;
+dkgithooks_displayerrors;
 
 ## Clean up
 ###################################
@@ -67,3 +50,4 @@ unset DKGH_LIST_ERRORS;
 unset DKGH_LABEL_ERRORS;
 unset DKGH_ERROR_RETURN_TEST;
 unset DKGH_ERROR_RETURN;
+unset DKGH_SOURCEDIR;
