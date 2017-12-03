@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Prevent invalid PHP v 0.1.1
+# Prevent invalid PHP v 0.1.2
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
@@ -38,8 +38,10 @@ DKGH_ERROR_RETURN='';
 DKGH_ERROR_RETURN_TEST='';
 
 for php_file in $php_files; do
-    DKGH_ERROR_RETURN_TEST=$(dkgithooks_testinvalidphpfile "${php_file}");
-    DKGH_ERROR_RETURN="${DKGH_ERROR_RETURN}${DKGH_ERROR_RETURN_TEST}";
+    if [[ -f $php_file ]]; then
+        DKGH_ERROR_RETURN_TEST=$(dkgithooks_testinvalidphpfile "${php_file}");
+        DKGH_ERROR_RETURN="${DKGH_ERROR_RETURN}${DKGH_ERROR_RETURN_TEST}";
+    fi;
 done
 
 ## Display errors
