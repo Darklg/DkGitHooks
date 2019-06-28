@@ -7,6 +7,7 @@ This shell tool allow you to easily generate some custom git hooks. And it works
 ### Before commit (pre-commit) :
 
 - Check for added debug functions like console.log or var_dump staged for commit. The removed ones are not detected.
+- Check for added debug files like debug.log or error_log.
 - Check for edited core files in WordPress & Magento (like in app/code/core or wp-admin).
 - Check for invalid PHP in .php and .phtml files.
 
