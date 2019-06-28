@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Functions v 0.1.0
+# Functions v 0.2.0
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
@@ -59,5 +59,25 @@ function dkgithooks_teststringingitdiffpath(){
     # Print any error
     if [[ "${_count_results}" -ge 1 ]]; then
         printf '\n - Discard any modification on core file in "%s" folder : %d %s.' "${test_folder}" "${_count_results}" "${_results_str}";
+    fi;
+}
+
+###################################
+## Test if files have been added
+###################################
+
+function dkgithooks_teststringingitdiffpathnew(){
+    test_folder=${1};
+
+    # Search for the string to avoid in changed/new/deleted files
+    _count_results=$(git diff --name-only --cached | grep "${test_folder}" | wc -l | awk '{print $1}');
+    # Add plural to the result word if needed.
+    _results_str='result';
+    if [[ "${_count_results}" -ge 2 ]]; then
+        _results_str='results';
+    fi;
+    # Print any error
+    if [[ "${_count_results}" -ge 1 ]]; then
+        printf '\n - An "%s" file should not be tracked : %d %s.' "${test_folder}" "${_count_results}" "${_results_str}";
     fi;
 }

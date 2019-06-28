@@ -13,3 +13,6 @@
 ## Prevent invalid PHP
 ##dkgithookspath##prevent-invalid-php.sh
 
+## Prevent debug files
+##dkgithookspath##prevent-debug-files.sh
+
