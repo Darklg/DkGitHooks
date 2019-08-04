@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Prevent new debug functions v 0.2.1
+# Prevent new debug functions v 0.3.0
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
@@ -23,13 +23,19 @@ DKGH_LABEL_ERRORS[0]='JS';
 DKGH_LIST_ERRORS[1]='var_dump var_export print_r Zend_Debug die( exit( die;';
 DKGH_LABEL_ERRORS[1]='PHP';
 
+if [[ -f ".dkgithooks_excluded_words" ]];then
+    DKGH_LIST_ERRORS[2]=$(cat .dkgithooks_excluded_words);
+    DKGH_LABEL_ERRORS[2]='CUSTOM';
+fi;
+
 ## Test all files
 ###################################
 
 DKGH_ERROR_RETURN='';
 DKGH_ERROR_RETURN_TEST='';
 
-for i in 0 1
+DKGH_LIST_ERRORS_LEN=${#DKGH_LIST_ERRORS[@]};
+for (( i=0; i<${DKGH_LIST_ERRORS_LEN}; i++ ));
 do
     for test_error in ${DKGH_LIST_ERRORS[${i}]}
     do
@@ -46,8 +52,9 @@ dkgithooks_displayerrors;
 ## Clean up
 ###################################
 
-unset DKGH_LIST_ERRORS;
-unset DKGH_LABEL_ERRORS;
-unset DKGH_ERROR_RETURN_TEST;
 unset DKGH_ERROR_RETURN;
+unset DKGH_ERROR_RETURN_TEST;
+unset DKGH_LABEL_ERRORS;
+unset DKGH_LIST_ERRORS;
+unset DKGH_LIST_ERRORS_LEN;
 unset DKGH_SOURCEDIR;
