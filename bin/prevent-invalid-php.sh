@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Prevent invalid PHP v 0.1.2
+# Prevent invalid PHP v 0.2.0
 #
 # @author      Darklg <darklg.blog@gmail.com>
 # @copyright   Copyright (c) @Darklg
@@ -9,8 +9,13 @@
 ## Load functions
 ###################################
 
+DKGH_PHP_EXEC="php";
 DKGH_SOURCEDIR="$( dirname "${BASH_SOURCE[0]}" )/";
 . "${DKGH_SOURCEDIR}/functions.sh";
+
+if [[ -f "${DKGH_SOURCEDIR}/../config.sh" ]];then
+    . "${DKGH_SOURCEDIR}/../config.sh";
+fi;
 
 ## Files list
 ###################################
@@ -24,7 +29,7 @@ function dkgithooks_testinvalidphpfile(){
     test_file=${1};
     test_group=${2};
 
-    invalid_file=$(php -l "${test_file}");
+    invalid_file=$("${DKGH_PHP_EXEC}" -l "${test_file}");
     if [[ $invalid_file != "No syntax"* ]];  then
         printf "\n - ${invalid_file}";
     fi

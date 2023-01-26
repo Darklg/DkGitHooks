@@ -23,6 +23,17 @@ The tool will ask you for some commit hooks. Then, you can customize the called 
 
 Just clone this repository !
 
+## Config file
+
+Create a file named `config.sh` in this directory.
+
+```bash
+#!/bin/bash
+
+# Custom PHP bin for tests
+DKGH_PHP_EXEC="/opt/homebrew/bin/php";
+```
+
 ## TODO
 
 - [ ] Install this repository with a one line command (and a copy to /usr/local/bin)
